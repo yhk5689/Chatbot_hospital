@@ -13,9 +13,10 @@ model.compile(optimizer= tf.keras.optimizers.SGD(lr=0.1), loss= 'mse')  # optimi
 # summary - 신경망 구조
 model.summary()
 
-# history = model.fit(x, y, epochs=2000, batch_size=1)
-# model.predict(x)
-# print("입력(1,1) : ",model.predict(x)[0])
-# print("입력(1,0) : ",model.predict(x)[1])
-# print("입력(0,1) : ",model.predict(x)[2])
-# print("입력(0,0) : ",model.predict(x)[3])
+history = model.fit(x, y, epochs=2000, batch_size=1)
+model.predict(x)
+print("입력 : {0}  = {1}".format(x[0], model.predict(x)[0]))
+print("입력 : {0}  = {1}".format(x[1], model.predict(x)[1]))
+print("입력 : {0}  = {1}".format(x[2], model.predict(x)[2]))
+print("입력 : {0}  = {1}".format(x[3], model.predict(x)[3]))
+
