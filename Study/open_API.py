@@ -74,6 +74,11 @@ jsonObj2 = json.loads(jsonString2)
 #           print('0000' + '\t' + tag['BIZPLC_NM'] + ' 병원' + '\t\t' + '1' + '\n')
 #           f.write('0000' + '\t' + tag['BIZPLC_NM'] + ' 병원' + '\t\t' + '1' + '\n')    # 띄어쓰기 주의 intent 1에 속하면 1, 2에 속하면 2
 
+# for tag2 in jsonObj2 :
+#     if tag2['BSN_STATE_NM'] == '영업중' :
+#           print('0000' + '\t' + tag2['BIZPLC_NM'] + ' 병원' + '\t\t' + '1' + '\n')
+#           f.write('0000' + '\t' + tag2['BIZPLC_NM'] + ' 병원' + '\t\t' + '1' + '\n')
+
 
 
 # Intent 2-1
