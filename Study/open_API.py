@@ -71,7 +71,7 @@ jsonObj2 = json.loads(jsonString2)
 # Intent 1
 # for tag in jsonObj :
 #     if tag['BSN_STATE_NM'] == '영업중' :
-<<<<<<< Updated upstream
+
 #           print('0000' + '\t' + tag['BIZPLC_NM'] + '\t\t' + '1' + '\n')
 #           f.write('0000' + '\t' + tag['BIZPLC_NM'] + '\t\t' + '1' + '\n')    # 띄어쓰기 주의 intent 1에 속하면 1, 2에 속하면 2
 
@@ -79,13 +79,13 @@ jsonObj2 = json.loads(jsonString2)
 #     if tag2['BSN_STATE_NM'] == '영업중' :
 #           print('0000' + '\t' + tag2['BIZPLC_NM'] + '\t\t' + '1' + '\n')
 #           f.write('0000' + '\t' + tag2['BIZPLC_NM'] + '\t\t' + '1' + '\n')
-=======
+
 #           f.write('0000' + '\t' + tag['BIZPLC_NM'] + ' 연락처 요청합니다' + '\t\t' + '1' + '\n')    # 띄어쓰기 주의 intent 1에 속하면 1, 2에 속하면 2
 #
 # for tag2 in jsonObj2 :
 #     if tag2['BSN_STATE_NM'] == '영업중' :
 #           f.write('0000' + '\t' + tag2['BIZPLC_NM'] + ' 연락처 요청합니다' + '\t\t' + '1' + '\n')
->>>>>>> Stashed changes
+
 
 
 
@@ -124,8 +124,8 @@ for i in union :
     new_union.append(i[0] + ' ' + i[1])
 
 for i in new_union :
-    # print('0000' + '\t' + i + ' 병원 목록' + '\t\t' + '2' + '\n')
-    f.write('0000' + '\t' + i + ' 주변 병원 전체' + '\t\t' + '2' + '\n')
+    print('0000' + '\t' + i + ' 병원 목록' + '\t\t' + '2' + '\n')
+    # f.write('0000' + '\t' + i + ' 주변 병원 전체' + '\t\t' + '2' + '\n')
 
 
 #   Intent 2-3
@@ -133,6 +133,7 @@ for i in new_union :
 # for item in jsonObj :
 #     if item['BSN_STATE_NM'] == '영업중' :
 #        sigun.append(item['SIGUN_NM'])
+#                 '\t\t' + '2' + '\n')    # i = 시 j = 병원 (종)
 #        subject.append(str(item['MEDINST_ASORTMT_NM'])[0:4])
 # sigun = remove_redundancy(sigun); subject = remove_redundancy(subject)
 #
@@ -142,7 +143,6 @@ for i in new_union :
 #                 '\t\t' + '2' + '\n')    # i = 시 j = 병원 (종)
 
 #         f.write('0000' + '\t' + i + ' ' + j + ' 목록' +
-#                 '\t\t' + '2' + '\n')    # i = 시 j = 병원 (종)
 
 
 #   Intent 2-4
@@ -183,7 +183,7 @@ f.close
 
 
 
-# 배제
+# 배제222
 # url2 = "https://openapi.gg.go.kr/ChildNightTreatHosptl?KEY=77cb354acba545899e78bf1bfe9c159c&pSize=1000"
 # content2 = requests.get(url2).content
 # dict2 = xmltodict.parse(content2)
