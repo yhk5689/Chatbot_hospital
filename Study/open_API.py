@@ -183,10 +183,10 @@ f.close
 
 
 
-# 배제222
 # url2 = "https://openapi.gg.go.kr/ChildNightTreatHosptl?KEY=77cb354acba545899e78bf1bfe9c159c&pSize=1000"
 # content2 = requests.get(url2).content
 # dict2 = xmltodict.parse(content2)
 # jsonString2 = json.dumps(dict2['ChildNightTreatHosptl']['row'], ensure_ascii=False)
 # jsonObj2 = json.loads(jsonString2)
 
+# merge test ...
