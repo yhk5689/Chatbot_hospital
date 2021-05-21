@@ -12,10 +12,12 @@ x_train, x_test = x_train / 255.0, x_test / 255.0 # 데이터 정규화
 픽셀값이 범위 (0 ~ 255)
 but) 신경망 입력층에는 0 ~ 1 사이의 값을 입력 => 정규화 
 """
+
+
 # plt.imshow(x_train[0], cmap='gray')
 # print(y_train[0])
-
-#tf.data를 사용하여 데이터셋을 섞고 배치 만들기
+print(len(x_train))
+# #tf.data를 사용하여 데이터셋을 섞고 배치 만들기
 ds = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000)
 train_size = int(len(x_train) * 0.7) # 학습셋:검증셋 = 7:3    # 70%는 실제 학습용 데이터셋, 30%는 검증용 데이터셋
 train_ds = ds.take(train_size).batch(20)
@@ -36,41 +38,31 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='sgd', metrics=[
 # model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 
 # 모델 학습
-hist = model.fit(train_ds, validation_data=val_ds, epochs=10)
+hist = model.fit(train_ds, validation_data=val_ds, epochs=10) # batch size = 20
+#
+# # 모델 평가
+# print('모델 평가')
+# model.evaluate(x_test, y_test)
+#
+# # 모델 정보 출력
+# model.summary()
+#
+# # 모델 저장
+# model.save('mnist_model.h5')
 
-# 모델 평가
-print('모델 평가')
-model.evaluate(x_test, y_test)
-
-# 모델 정보 출력
-model.summary()
-
-# 모델 저장
-model.save('mnist_model.h5')
-
-# 학습 결과 그래프
-# fig, loss_ax = plt.subplots()
-# acc_ax = loss_ax.twinx()
-# loss_ax.plot(hist.history['loss'], 'y', label='train loss')
-# loss_ax.plot(hist.history['val_loss'], 'r', label='val loss')
-# acc_ax.plot(hist.history['accuracy'], 'b', label='train acc')
-# acc_ax.plot(hist.history['val_accuracy'], 'g', label='val acc')
-# loss_ax.set_xlabel('epoch')
-# loss_ax.set_ylabel('loss')
-# acc_ax.set_ylabel('accuracy')
-# loss_ax.legend(loc='upper left')
-# acc_ax.legend(loc='lower left')
-plt.figure(figsize=(12,4))
-plt.subplot(1, 2, 1)
-plt.plot(hist.history['loss'], 'b-', label= 'loss')
-plt.plot(hist.history['val_loss'], 'r--', label= 'val_loss')
-plt.xlabel('Epoch')
-plt.legend()
-
-plt.subplot(1,2,2)
-plt.plot(hist.history['accuracy'], 'g-', label= 'accuracy')
-plt.plot(hist.history['val_accuracy'], 'k--', label= 'val_accuracys')
-plt.xlabel('Epoch')
-plt.ylim(0.7, 1)
-plt.legend()
+#학습 결과 그래프
+# plt.figure(figsize=(12,4))
+# plt.subplot(1, 2, 1)
+# plt.plot(hist.history['loss'], 'b-', label= 'loss')
+# plt.plot(hist.history['val_loss'], 'r--', label= 'val_loss')
+# plt.xlabel('Epoch')
+# plt.legend()
+#
+# plt.subplot(1,2,2)
+# plt.plot(hist.history['accuracy'], 'g-', label= 'accuracy')
+# plt.plot(hist.history['val_accuracy'], 'k--', label= 'val_accuracys')
+# plt.xlabel('Epoch')
+# plt.ylim(0.7, 1)
+# plt.legend()
 plt.show()
+

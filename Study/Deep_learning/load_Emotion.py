@@ -3,14 +3,6 @@ import pandas as pd
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras import preprocessing
 
-# gpus = tf.config.experimental.list_physical_devices('GPU')
-# if gpus:
-#   try:
-#     tf.config.experimental.set_memory_growth(gpus[0], True)
-#   except RuntimeError as e:
-#     # 프로그램 시작시에 메모리 증가가 설정되어야 함.
-#     print(e)
-
 # 데이터 읽어오기
 train_file = "./chatbot_data.csv"
 data = pd.read_csv(train_file, delimiter=',')
@@ -31,7 +23,7 @@ ds = ds.shuffle(len(features))
 test_ds = ds.take(2000).batch(20) # 테스트 데이터셋
 
 # 감정 분류 CNN 모델 불러오기
-model = load_model('cnn_model.h5')
+model = load_model('cnn_model.h5') # 학습이 완료된 모델
 model.summary()
 model.evaluate(test_ds, verbose=2)
 

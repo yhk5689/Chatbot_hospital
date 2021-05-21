@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow.keras import preprocessing
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Embedding, Dense, Dropout, Conv1D, GlobalMaxPool1D, concatenate
+from tensorflow.keras.layers import Input, Embedding, Dense, Dropout, Conv1D, GlobalMaxPool1D, concatenate # concat - flatten
 
 # 데이터 읽어오기
 train_file = "./chatbot_data.csv"
@@ -13,16 +13,19 @@ labels = data['label'].tolist()
 
 
 # 단어 인덱스 시퀀스 벡터
-corpus = [preprocessing.text.text_to_word_sequence(text) for text in features] # 문장 -> 단어시퀀스
-
+corpus = [preprocessing.text.text_to_word_sequence(text) for text in features]
 tokenizer = preprocessing.text.Tokenizer()
 tokenizer.fit_on_texts(corpus)  # 문자데이터를 리스트로 반환
 sequences = tokenizer.texts_to_sequences(corpus)    # 토큰 -> 시퀀스
+# print(sequences)
 word_index = tokenizer.word_index   # 키 : 값 딕셔너리 형태
+# print(word_index)
+
+
 
 MAX_SEQ_LEN = 15  # 단어 시퀀스 벡터 크기    # 최대 동일 벡터 맞춤
 padded_seqs = preprocessing.sequence.pad_sequences(sequences, maxlen=MAX_SEQ_LEN, padding='post')  # 남는 벡터부분 패딩처리(0)
-print(word_index)
+print(padded_seqs)
 #
 # # 학습용, 검증용, 테스트용 데이터셋 생성 ➌00j
 # # 학습셋:검증셋:테스트셋 = 7:2:1
@@ -51,31 +54,40 @@ dropout_emb = Dropout(rate=dropout_prob)(embedding_layer)
 #
 conv1 = Conv1D(filters=128, kernel_size=3, padding='valid', activation=tf.nn.relu)(dropout_emb)
 pool1 = GlobalMaxPool1D()(conv1)
+
 conv2 = Conv1D(filters=128, kernel_size=4, padding='valid', activation=tf.nn.relu)(dropout_emb)
 pool2 = GlobalMaxPool1D()(conv2)
+
 conv3 = Conv1D(filters=128, kernel_size=5, padding='valid', activation=tf.nn.relu)(dropout_emb)
 pool3 = GlobalMaxPool1D()(conv3)
+
 # # 3, 4, 5- gram 이후 합치기\
 concat = concatenate([pool1,pool2,pool3])
 
 hidden = Dense(128, activation=tf.nn.relu)(concat)
 dropout_hidden = Dropout(rate=dropout_prob)(hidden)
-logits = Dense(3, name='logits')(dropout_hidden)
 
-predictions = Dense(3, activation=tf.nn.softmax)(logits)
+logits = Dense(3, name='logits')(dropout_hidden) # 합계
+
+predictions = Dense(3, activation=tf.nn.softmax)(logits) # logits에서 나온 합계를 softmax 확률
 #
-# # 모델 생성
+
+
+# 모델 생성
 model = Model(inputs=input_layer, outputs=predictions)
+
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
+
+
 # 모델 학습
-model.fit(train_ds, validation_data=val_ds, epochs=EPOCH, verbose=1)
+model.fit(train_ds, validation_data=val_ds, epochs=EPOCH, verbose=1) # 학습시키는 부분
+
+
+# 모델 평가(테스트 데이터셋 이용)
+loss, accuracy = model.evaluate(test_ds, verbose=1)
+print('Accuracy: %f' % (accuracy * 100))
+print('loss: %f' % (loss))
 #
-#
-# # # 모델 평가(테스트 데이터셋 이용)
-# loss, accuracy = model.evaluate(test_ds, verbose=1)
-# print('Accuracy: %f' % (accuracy * 100))
-# print('loss: %f' % (loss))
-# #
-# # # 모델 저장
-# model.save('cnn_model.h5')
+# 모델 저장
+model.save('cnn_model.h5')
